@@ -33,14 +33,14 @@ class DownloadBar:
         :param percent: 
         """
 
-        for func in [
+        for validator_function in [
             self.__check_width(width=width),
             self.__check_chars(char=empty_char),
             self.__check_chars(char=filled_char),
             self.__check_bools(boolean=status),
             self.__check_bools(boolean=percent)
         ]:
-            response, exception = func
+            response, exception = validator_function
             if not response:
                 raise exception
 
