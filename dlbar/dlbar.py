@@ -106,7 +106,11 @@ class DownloadBar:
         :return:
         """
 
-        pass
+        for rng in ['bytes', 'KB', 'MB', 'GB', 'TB']:
+            if size < 1024.0:
+                return "%3.0f %s" % (size, rng)
+            
+            size /= 1024.0
 
 
     @staticmethod
