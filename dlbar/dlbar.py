@@ -138,11 +138,14 @@ class DownloadBar:
 
 
     @staticmethod
-    def __check_bools(boolean: bool) -> tuple[bool, str]:
+    def __check_bools(boolean: bool) -> tuple[bool, None|Exception]:
         """
 
         :param boolean:
         :return:
         """
 
-        pass
+        if isinstance(boolean, bool):
+            return True, None
+
+        return False, TypeError(f"The value must be of boolean type. But type {type(boolean).__name__} received.")
