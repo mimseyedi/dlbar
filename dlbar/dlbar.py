@@ -66,52 +66,72 @@ class DownloadBar:
     
     @property
     def width(self) -> int:
-        pass
+        return self._width
 
 
     @width.setter
     def width(self, width: int) -> None:
-        pass
+        response, exception = self.__check_width(width=width)
+        if not response:
+            raise exception
+
+        self._width = width
 
 
     @property
     def empty_char(self) -> str:
-        pass
+        return self._empty_char
 
 
     @empty_char.setter
     def empty_char(self, empty_char: str) -> None:
-        pass
+        response, exception = self.__check_chars(char=empty_char)
+        if not response:
+            raise exception
+
+        self._empty_char = empty_char
 
 
     @property
     def filled_char(self) -> str:
-        pass
+        return self._filled_char
 
 
     @filled_char.setter
     def filled_char(self, filled_char) -> None:
-        pass
+        response, exception = self.__check_chars(char=filled_char)
+        if not response:
+            raise exception
+
+        self._filled_char = filled_char
 
 
     @property
     def status(self) -> bool:
-        pass
+        return self._status
 
 
     @status.setter
     def status(self, status) -> None:
-        pass
+        response, exception = self.__check_bools(boolean=status)
+        if not response:
+            raise exception
+
+        self._status = status
 
 
     @property
     def percent(self) -> bool:
-        pass
+        return self._percent
 
 
     @percent.setter
     def percent(self, percent) -> None:
-        pass
+        response, exception = self.__check_bools(boolean=percent)
+        if not response:
+            raise exception
+
+        self._percent = percent
 
 
     @staticmethod
@@ -178,6 +198,3 @@ class DownloadBar:
             return True, None
 
         return False, TypeError(f"The value must be of boolean type. But type {type(boolean).__name__} received.")
-
-
-p = DownloadBar()
