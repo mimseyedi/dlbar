@@ -8,6 +8,9 @@
 
 dlbar is a simple terminal progress bar for downloading and displaying download progress.
 
+This is an open source project under the MIT license. You can easily use it or make any changes you like.
+Also, your contribution to the project through the GitHub page will be welcomed.
+
 Github repository: https://github.com/mimseyedi/dlbar
 """
 
@@ -20,17 +23,19 @@ from pathlib import Path
 
 class DownloadBar:
 
-    def __init__(self, width: int=50, empty_char: str=f"\033[31m{chr(9472)}\033[0m",
-            filled_char: str=f"\033[32m{chr(9472)}\033[0m", status: bool=True,
-            percent: bool=True) -> None:
-        
+    def __init__(self, width: int=50, empty_char: str=chr(45), filled_char: str=chr(9608),
+                 status: bool=True, percent: bool=True) -> None:
         """
-        
-        :param width: 
-        :param empty_char: 
-        :param filled_char: 
-        :param status:
-        :param percent: 
+        The task of the DownloadBar class is to create a download bar and finally
+        download a file from the specified url and save it in the destination path.
+
+        :param width: The width of the download bar in integer format. (This integer must be greater than 9.)
+        :param empty_char: The character that is supposed to display the undownloaded space on the download bar.
+                           (The length of this character must be equal to 1 and it can support ANSI codes for coloring.)
+        :param filled_char: The character that is supposed to display the downloaded space on the download bar.
+                           (The length of this character must be equal to 1 and it can support ANSI codes for coloring.)
+        :param status: It displays the progress status in the form of file size and downloaded amount.
+        :param percent: Displays the progress status as a percentage.
         """
 
         for validator_function in [
@@ -53,11 +58,13 @@ class DownloadBar:
 
     def download(self, url: str, dest: str|Path, title: str, chunk_size: int=4096) -> None:
         """
-        
-        :param url: 
-        :param dest: 
-        :param title: 
-        :param chunk_size: 
+        The task of this function is to download the desired file from
+        the specified url and save it in the destination path.
+
+        :param url: The url of the file to be downloaded.
+        :param dest: The destination path where the file should be saved.
+        :param title: The title of the download that indicates the operation that is in progress.
+        :param chunk_size: Chunk size value in the form of an integer.
         :return: None
         """
 
@@ -93,6 +100,8 @@ class DownloadBar:
                     )
 
                     sys.stdout.flush()
+
+                sys.stdout.write("\n")
 
 
     @property
@@ -166,11 +175,12 @@ class DownloadBar:
 
 
     @staticmethod
-    def convert_size(size: int) -> str:
+    def convert_size(size: float) -> str:
         """
+        The task of this function is to convert the file size and downloaded data.
 
-        :param size:
-        :return:
+        :param size: Data size in bytes.
+        :return: str
         """
 
         for rng in ['bytes', 'KB', 'MB', 'GB', 'TB']:
@@ -184,9 +194,10 @@ class DownloadBar:
     @staticmethod
     def __check_width(width: int) -> tuple[bool, None|Exception]:
         """
+        The task of this function is to check and validate the width attribute.
 
-        :param width:
-        :return:
+        :param width: Download bar width attribute.
+        :return: tuple[bool, None|Exception]
         """
 
         if isinstance(width, int):
@@ -201,9 +212,10 @@ class DownloadBar:
     @staticmethod
     def __check_chars(char: str) -> tuple[bool, None|Exception]:
         """
+        The task of this function is to check and validate char type attributes.
 
-        :param char:
-        :return:
+        :param char: A char attribute.
+        :return: tuple[bool, None|Exception]
         """
 
         if isinstance(char, str):
@@ -221,9 +233,10 @@ class DownloadBar:
     @staticmethod
     def __check_bools(boolean: bool) -> tuple[bool, None|Exception]:
         """
+        The task of this function is to check and validate bool type attributes.
 
-        :param boolean:
-        :return:
+        :param boolean: A bool attribute.
+        :return: tuple[bool, None|Exception]
         """
 
         if isinstance(boolean, bool):
