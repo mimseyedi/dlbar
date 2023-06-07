@@ -12,6 +12,7 @@ Github repository: https://github.com/mimseyedi/dlbar
 """
 
 
+import re
 import sys
 import requests
 from pathlib import Path
@@ -32,7 +33,22 @@ class DownloadBar:
         :param percent: 
         """
 
-        pass
+        for func in [
+            self.__check_width(width=width),
+            self.__check_chars(char=empty_char),
+            self.__check_chars(char=filled_char),
+            self.__check_bools(boolean=status),
+            self.__check_bools(boolean=percent)
+        ]:
+            response, exception = func
+            if not response:
+                raise exception
+
+        self._width = width
+        self._empty_char = empty_char
+        self._filled_char = filled_char
+        self._status = status
+        self._percent = percent
 
 
     def download(self, url: str, dest: Path, title: str, chunk_size: int=4096) -> None:
@@ -109,7 +125,7 @@ class DownloadBar:
         for rng in ['bytes', 'KB', 'MB', 'GB', 'TB']:
             if size < 1024.0:
                 return "%3.0f %s" % (size, rng)
-            
+
             size /= 1024.0
 
 
@@ -139,7 +155,10 @@ class DownloadBar:
         """
 
         if isinstance(char, str):
-            if len(char) == 1:
+            ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+            cleared_char = ansi_escape.sub('', char)
+
+            if len(cleared_char) == 1:
                 return True, None
 
             return False, ValueError(f"The length of a character should not be more or less than 1. The current length is {len(char)}.")
@@ -159,3 +178,6 @@ class DownloadBar:
             return True, None
 
         return False, TypeError(f"The value must be of boolean type. But type {type(boolean).__name__} received.")
+
+
+p = DownloadBar()
