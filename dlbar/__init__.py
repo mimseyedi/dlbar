@@ -14,7 +14,9 @@ Also, your contribution to the project through the GitHub page will be welcomed.
 Github repository: https://github.com/mimseyedi/dlbar
 """
 
+
 from dlbar.dlbar import DownloadBar
+
 
 __author__ = 'mimseyedi'
 __version__ = '1.0.0'
