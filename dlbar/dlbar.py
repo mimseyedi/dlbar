@@ -51,19 +51,50 @@ class DownloadBar:
         self._percent = percent
 
 
-    def download(self, url: str, dest: Path, title: str, chunk_size: int=4096) -> None:
+    def download(self, url: str, dest: str|Path, title: str, chunk_size: int=4096) -> None:
         """
         
         :param url: 
         :param dest: 
         :param title: 
         :param chunk_size: 
-        :return: 
+        :return: None
         """
-        
-        pass
-    
-    
+
+        with open(dest, 'wb') as output_file:
+            sys.stdout.write(title + "\n")
+
+            response: requests.Response = requests.get(url, stream=True)
+            total_length = response.headers.get('content-length')
+
+            if total_length is None:
+                output_file.write(response.content)
+            else:
+                downloaded = 0
+                total_length = int(total_length)
+
+                for data in response.iter_content(chunk_size=chunk_size):
+                    output_file.write(data)
+                    downloaded += len(data)
+
+                    bar = int(self._width * downloaded / total_length)
+
+                    sys.stdout.write(
+                        "\r%s %s%s %s " % (
+                            str(downloaded * 100 // total_length) + "%"
+                            if self._percent else "",
+
+                            self._filled_char * bar,
+                            self._empty_char * (self._width - bar),
+
+                            str(self.convert_size(downloaded)) + "/" + str(self.convert_size(total_length))
+                            if self._status else ''
+                        )
+                    )
+
+                    sys.stdout.flush()
+
+
     @property
     def width(self) -> int:
         return self._width
@@ -144,7 +175,8 @@ class DownloadBar:
 
         for rng in ['bytes', 'KB', 'MB', 'GB', 'TB']:
             if size < 1024.0:
-                return "%3.0f %s" % (size, rng)
+                return "%3.0f %s" % (size, rng) if rng == 'KB' \
+                    else "%3.3f %s" % (size, rng)
 
             size /= 1024.0
 
