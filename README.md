@@ -1,3 +1,5 @@
+[![pypi](https://img.shields.io/pypi/v/dlbar.svg)](https://pypi.org/project/dlbar/) [![license](https://img.shields.io/github/license/mimseyedi/dlbar.svg)](https://github.com/mimseyedi/dlbar/blob/master/LICENSE)
+
 ![img1](https://raw.githubusercontent.com/mimseyedi/dlbar/master/docs/dlbar-poster.gif)
  
 ## Table of contents:
