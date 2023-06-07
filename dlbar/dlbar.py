@@ -124,14 +124,17 @@ class DownloadBar:
 
 
     @staticmethod
-    def __check_chars(char: str) -> tuple[bool, str]:
+    def __check_chars(char: str) -> tuple[bool, None|Exception]:
         """
 
         :param char:
         :return:
         """
 
-        pass
+        if isinstance(char, str) and len(char) == 1:
+            return True, None
+
+        return False, ValueError("A character must be of string type and its length must be equal to 1.")
 
 
     @staticmethod
