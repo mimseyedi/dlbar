@@ -110,14 +110,17 @@ class DownloadBar:
 
 
     @staticmethod
-    def __check_width(width: int) -> tuple[bool, str]:
+    def __check_width(width: int) -> tuple[bool, None|Exception]:
         """
 
         :param width:
         :return:
         """
 
-        pass
+        if isinstance(width, int) and width >= 10:
+            return True, None
+
+        return False, ValueError("The width of the download bar must be an integer and not less than 10.")
 
 
     @staticmethod
