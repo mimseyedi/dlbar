@@ -117,10 +117,13 @@ class DownloadBar:
         :return:
         """
 
-        if isinstance(width, int) and width >= 10:
-            return True, None
+        if isinstance(width, int):
+            if width >= 10:
+                return True, None
 
-        return False, ValueError("The width of the download bar must be an integer and not less than 10.")
+            return False, ValueError(f"The width value should not be less than 10. The current width is {width}.")
+
+        return False, TypeError(f"The width of the download bar must be an integer. But type {type(width).__name__} received.")
 
 
     @staticmethod
@@ -131,10 +134,13 @@ class DownloadBar:
         :return:
         """
 
-        if isinstance(char, str) and len(char) == 1:
-            return True, None
+        if isinstance(char, str):
+            if len(char) == 1:
+                return True, None
 
-        return False, ValueError("A character must be of string type and its length must be equal to 1.")
+            return False, ValueError(f"The length of a character should not be more or less than 1. The current length is {len(char)}.")
+
+        return False, TypeError(f"A character must be of string type. But type {type(char).__name__} received.")
 
 
     @staticmethod
